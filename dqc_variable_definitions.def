@@ -1,0 +1,48 @@
+;  Double Quantum Coherence EPR with ESE detection
+;  PulseSPEL general variables, definitions & conventions
+
+begin defs
+
+p0   = 12		; pi/2 pulse length
+p1   = 24		; pi pulse length
+
+pg   = 24		; Integrator Gate Width
+d0   = 0		; Detection Trigger offset time
+
+d1   = 200		; tau 1
+d2   = 200		; tau 2 (set equal to d1 for DQ-EPR)
+d3   = 50		; T
+d4   = 0		; time to start before axis=0 (added to tau2 in DQ-EPR)
+
+d9   = 0		; DAF (Delay After Flash), delay after external event (eg. laser pulse)
+d30  = 4		; 1st time scale increment, equals the timestep on the DQC trace divided by 2
+d31  = 16		; time scale increment for nuclear modulation averaging
+d13  = 224		; (d31 x m) correction to delays for second split gate loop
+
+a    = 20		; (RESERVED) number of transient averages (TRANS)
+				; if greater than 1024, a must be a multiple of 1024
+h    = 3		; (CONVENTION) number of shots per point (INTG and SPT)
+n    = 1		; (CONVENTION) number of sweeps to accumulate
+m    = 8		; number of steps for nuclear modulation averaging
+
+srt  = 7000 * srtu ; (RESERVED) SRT - Shot Repetition Time (srtu=1.02 us)
+
+b    = 1		;
+c    = 1		;
+r    = 1		;
+s    = 1		;
+t    = 1		;
+
+w    = 11		; (CONVENTION) Split point of sweeps (points)
+				; i.e. pulse separation where TWT gate pulse can be split.
+dx   = 0		; (RESERVED) 1st time scale starting value
+dy   = 0		; (RESERVED) 2nd time scale starting value
+
+end defs
+
+; Note:
+;       Variables Marked 'RESERVED' = variable may be used for other times,
+;                                     however only this variable can change
+;                                     the indicated parameter.
+;                                     eg. only 'a' will change the number of
+;                                     transients averaged in SpecJet

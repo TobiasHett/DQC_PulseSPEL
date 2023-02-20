@@ -1,0 +1,237 @@
+;  Double Quantum Coherence EPR with ESE detection
+;
+;	S. Saxena and J. H. Freed
+;	J. Chem. Phys. 1997, v. 107, p 1317
+;
+; The DQC sequence has its maximum DQ echo at tau1=tau2.
+; The DQC-EPR sequence sets tau1=tau2 and calculates
+; the number of points sx based on d30 and tau2.
+; sx = d4/d30 + 1. Here, d4 is the trace length.
+; The abscissa is calculated as tau1-tau2.
+
+begin defs			; dimension of data array [sx,sy]
+ dim s[1024]		;	for 2P setup
+ dim1 s[1024]		;	for DQC setup
+ dim2 s[1751]		;	for DQ-EPR ; NoP = (d4/d30 + 1)
+end defs
+
+begin lists "+x none"
+ ph1 +x
+ ph2 +x
+ ph3 +x
+ ph4 +x
+ ph5 +x
+ ph6 +x
+ asg1 +a
+ bsg1 +b
+end lists
+
+begin lists1 "+y none"
+ ph1 +y
+ ph2 +y
+ ph3 +y
+ ph4 +y
+ ph5 +y
+ ph6 +y
+ asg1 +a
+ bsg1 +b
+end lists1
+
+begin lists2 "-x none"
+ ph1 -x
+ ph2 -x
+ ph3 -x
+ ph4 -x
+ ph5 -x
+ ph6 -x
+ asg1 +a
+ bsg1 +b
+end lists2
+
+begin lists3 "-y none"
+ ph1 -y
+ ph2 -y
+ ph3 -y
+ ph4 -y
+ ph5 -y
+ ph6 -y
+ asg1 +a
+ bsg1 +b
+end lists3
+
+begin lists4 "sumx"
+ ph1 +x -x
+ ph2 +x -x
+ ph3 +x -x
+ ph4 +x -x
+ ph5 +x -x
+ ph6 +x -x
+ asg1 +a +a
+ bsg1 +b +b
+end lists4
+
+begin lists5 "sumy"
+ ph1 +y -y
+ ph2 +y -y
+ ph3 +y -y
+ ph4 +y -y
+ ph5 +y -y
+ ph6 +y -y
+ asg1 +a +a
+ bsg1 +b +b
+end lists5
+
+begin lists6 "2 step x"
+ ph1 +x -x
+ ph2 +x +x
+ asg1 +a -a
+ bsg1 +b -b
+end lists6
+
+begin lists7 "2 step y"
+ ph1 +y -y
+ ph2 +y +y
+ asg1 +a -a
+ bsg1 +b -b
+end lists7
+
+
+begin lists8 "16-step"
+ ph1 +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y
+ ph2 +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y
+ ph3 +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y
+ ph4 +x +x +x +x  -x -x -x -x  +x +x +x +x  -x -x -x -x
+ ph5 +x +x +x +x  +x +x +x +x  -x -x -x -x  -x -x -x -x
+ ph6 +x +x +x +x  -x -x -x -x  +x +x +x +x  -x -x -x -x
+ asg1 +a -a +a -a  +a -a +a -a  -a +a -a +a  -a +a -a +a
+ bsg1 +b -b +b -b  +b -b +b -b  -b +b -b +b  -b +b -b +b
+end lists8
+
+begin lists9 "32-step"
+ ph1 +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y   +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y
+ ph2 +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y   +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y
+ ph3 +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y   +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y
+ ph4 +x +x +x +x  -x -x -x -x  +x +x +x +x  -x -x -x -x   +x +x +x +x  -x -x -x -x  +x +x +x +x  -x -x -x -x
+ ph5 +x +x +x +x  +x +x +x +x  -x -x -x -x  -x -x -x -x   +x +x +x +x  +x +x +x +x  -x -x -x -x  -x -x -x -x
+ ph6 +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x   -x -x -x -x  -x -x -x -x  -x -x -x -x  -x -x -x -x
+ asg1 +a -a +a -a  +a -a +a -a  -a +a -a +a  -a +a -a +a  +a -a +a -a  +a -a +a -a  -a +a -a +a  -a +a -a +a
+ bsg1 +b -b +b -b  +b -b +b -b  -b +b -b +b  -b +b -b +b  +b -b +b -b  +b -b +b -b  -b +b -b +b  -b +b -b +b
+end lists9
+
+begin lists10 "64-step"
+ ph1 +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y
+ ph2 +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y
+ ph3 +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y  +x +y -x -y
+ ph4 +x +x +x +x  +y +y +y +y  -x -x -x -x  -y -y -y -y  +x +x +x +x  +y +y +y +y  -x -x -x -x  -y -y -y -y  +x +x +x +x  +y +y +y +y  -x -x -x -x  -y -y -y -y  +x +x +x +x  +y +y +y +y  -x -x -x -x  -y -y -y -y
+ ph5 +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x  -x -x -x -x  -x -x -x -x  -x -x -x -x  -x -x -x -x  +y +y +y +y  +y +y +y +y  +y +y +y +y  +y +y +y +y  -y -y -y -y  -y -y -y -y  -y -y -y -y  -y -y -y -y
+ ph6 +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x  +x +x +x +x
+ asg1 +a -a +a -a  +a -a +a -a  +a -a +a -a  +a -a +a -a  -a +a -a +a  -a +a -a +a  -a +a -a +a  -a +a -a +a  +b -b +b -b  +b -b +b -b  +b -b +b -b  +b -b +b -b  -b +b -b +b  -b +b -b +b  -b +b -b +b  -b +b -b +b
+ bsg1 +b -b +b -b  +b -b +b -b  +b -b +b -b  +b -b +b -b  -b +b -b +b  -b +b -b +b  -b +b -b +b  -b +b -b +b  -a +a -a +a  -a +a -a +a  -a +a -a +a  -a +a -a +a  +a -a +a -a  +a -a +a -a  +a -a +a -a  +a -a +a -a
+end lists10
+
+;	Two-Pulse Experiment Setup
+;
+begin exp "2P ESE Setup" [TRANS QUAD]
+; QUAD detection of Transient
+
+   shot i=1 to h	; accumulation loop
+    d9				; DAF (Delay After Flash)
+    p0 [ph1]		; 1st pulse and phase program
+    d1				; tau
+    p1 [ph2]		; 2nd pulse and phase program
+    d1				; tau
+    d0				; acquistion delay
+    dig [sg1]		; acquisition
+   next i			; end of accumulation loop
+
+end exp
+
+;	Double Quantum EPR Setup
+;
+begin exp1 "DQ ESE Setup" [TRANS QUAD]
+; QUAD detection of Transient
+
+d2=d1				; tau2 = tau1 maximum DQ echo
+d2=d2+d4			; time to start before axis=0
+
+    shot i=1 to a	; accumulation loop
+      d9			; DAF (Delay After Flash)
+      p0 [ph1]		; 1st pulse
+      d1			; tau1 > p1
+      p1 [ph2]		; 2nd pulse
+      d1			; tau1 > p1
+      p0 [ph3]		; 3rd pulse
+      d3			; T
+      p1 [ph4]		; 4th pulse
+      d3			; T
+      p0 [ph5]		; 5th pulse
+      d2			; tau2
+      p1 [ph6]		; 6th pulse
+      d2			; tau2
+      d0			; constant acquisition delay
+      dig [sg1]		; acquisition
+    next i			; end of accumulation loop
+
+end exp1
+
+;
+;	Double Quantum EPR
+;
+begin exp2 "ESE DQ-EPR" [INTG QUAD]
+; QUAD detection with Integration
+
+ d2=d1				; start at maximum DQ echo
+ d2=d2+d4			; to start before axis = 0
+ s=d4				; calculate number of points s=d4/d30 + 1
+ s=s/d30			;
+ s=s+1				;
+ d7=d1				; store tau1 (will change in sweep loop)
+ d8=d2				; store tau2
+
+ for k=1 to n		; averaging loop
+  totscans(n)		; output total number of scans
+
+  d1=d7				; starting tau1 (recalled for averaging loop)
+  d2=d8				; recall tau2
+  dx=d1-d2			; define x-axis as tau1-tau2
+  d12 = d1			; define the starting value for d1
+  d14 = d2			; define the starting value for d2
+
+	for j=1 to m	; tau averaging loop for suppression of nuclear modulations
+	d1 = d12		; set the first pulse delay, d1 to the starting value
+	d2 = d14;		; set the initial value for the d2 delay
+
+   sweep x=1 to s	; tau1 and tau2 sweep loop
+    shot i=1 to h	; accumulation loop
+      d9			; DAF (Delay After Flash)
+      p0 [ph1]		; 1st pulse
+      d1			; tau1 > p1
+      p1 [ph2]		; 2nd pulse
+      d1			; tau1 > p1
+      p0 [ph3]		; 3rd pulse
+      d3			; T
+      p1 [ph4]		; 4th pulse
+      d3			; T
+      p0 [ph5]		; 5th pulse
+      d2			; tau2 > p1
+      p1 [ph6]		; 6th pulse
+      d2			; tau2 > p1
+      d0			; constant acquisition delay
+      acq [sg1]		; acquisition
+    next i			; end of accumulation loop
+
+    d1=d1+d30		; increment tau1
+    d2=d2-d30		; decrement tau2
+    dx=dx+d30		; determine x-axis
+    dx=dx+d30		; determine x-axis
+	next x			; end of tau1 and tau2 sweep loop
+	
+	d12 = d12+d31	; increment the starting value d1 by d31 for nuclear modulation averaging
+	d14 = d14+d31	; increment the starting value d2 by d31 for nuclear modulation averaging
+	dx=d12-d14		; define x-axis as tau1-tau2
+	next j			; end of tau averaging loop for suppression of nuclear modulations
+	
+  scansdone(k)		; output of scans done
+ next k				; end of averaging loop
+
+end exp2
